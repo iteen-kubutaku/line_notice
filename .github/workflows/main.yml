@@ -1,0 +1,27 @@
+name: LINE Notification Every 5 Minutes
+
+on:
+  schedule:
+    - cron: "*/5 * * * *" # 5分ごとのスケジュール
+
+jobs:
+  notify-line:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Notify LINE
+        run: python notify_line.py
+        env:
+          LINE_NOTIFY_TOKEN: ${{ secrets.LINE_NOTIFY_TOKEN }}
